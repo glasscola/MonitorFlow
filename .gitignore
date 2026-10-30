@@ -1,0 +1,23 @@
+# .NET / IDE
+**/bin/
+**/obj/
+.vs/
+.idea/
+*.user
+*.suo
+*.pdb
+
+# Generated packages and local work
+/release/
+/artifacts/
+/outputs/
+/work/
+/tmp/
+*.tmp
+diagnostics*.json
+diagnostics-error.txt
+
+# Local system files
+Thumbs.db
+Desktop.ini
+.DS_Store

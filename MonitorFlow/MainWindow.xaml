@@ -1,0 +1,53 @@
+<Window x:Class="MonitorFlow.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="MonitorFlow" Icon="Assets/app.ico" Width="1200" Height="860" MinWidth="980" MinHeight="620" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closing="Window_Closing" PreviewKeyDown="Window_PreviewKeyDown" UseLayoutRounding="True">
+  <Grid>
+    <Grid.RowDefinitions><RowDefinition Height="78"/><RowDefinition Height="*"/><RowDefinition Height="86"/></Grid.RowDefinitions>
+    <Border Background="White" BorderBrush="#E5EAF2" BorderThickness="0,0,0,1">
+      <Grid Margin="28,0"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+          <Border Background="#3168ED" CornerRadius="12" Width="40" Height="40" Margin="0,0,12,0"><Canvas><Rectangle Width="18" Height="13" Stroke="White" StrokeThickness="2" RadiusX="2" RadiusY="2" Canvas.Left="8" Canvas.Top="10"/><Rectangle Width="14" Height="11" Fill="#3168ED" Stroke="White" StrokeThickness="2" RadiusX="2" RadiusY="2" Canvas.Left="18" Canvas.Top="18"/></Canvas></Border>
+          <StackPanel VerticalAlignment="Center"><TextBlock Text="MonitorFlow" FontSize="20" FontWeight="Bold"/><TextBlock Text="내 책상에 맞춘 화면 연결" FontSize="11" Foreground="{StaticResource Muted}" Margin="0,2,0,0"/></StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"><Border Background="#F0F5FF" CornerRadius="12" Padding="12,6" Margin="0,0,16,0"><TextBlock x:Name="DisplayCount" Foreground="#3168ED" FontSize="12" Text="모니터 확인 중"/></Border><Button Content="사용 안내" Click="Help_Click" Padding="13,7"/></StackPanel>
+      </Grid>
+    </Border>
+    <Grid Grid.Row="1" Margin="28,24,28,20"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="20"/><ColumnDefinition Width="292"/></Grid.ColumnDefinitions>
+      <Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="18"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel><TextBlock Text="모니터 배치" FontSize="25" FontWeight="Bold"/><TextBlock Text="화면을 드래그해 실제 책상 위 배치에 맞춰주세요." Foreground="{StaticResource Muted}" Margin="0,7,0,0"/></StackPanel><Button Grid.Column="1" Content="모니터 식별" Click="Identify_Click" VerticalAlignment="Center"/></Grid>
+        <Border Grid.Row="2" Background="White" BorderBrush="#DFE5EF" BorderThickness="1" CornerRadius="14" ClipToBounds="True">
+          <Grid><Grid.RowDefinitions><RowDefinition Height="58"/><RowDefinition Height="*"/><RowDefinition Height="44"/></Grid.RowDefinitions>
+            <Grid Margin="18,0"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel Orientation="Horizontal" VerticalAlignment="Center"><Ellipse Fill="#3168ED" Width="7" Height="7" Margin="0,0,7,0"/><TextBlock Text="나의 화면 배치" FontWeight="SemiBold"/><TextBlock x:Name="DemoLabel" Foreground="#B26F13" FontSize="11" Margin="10,0,0,0"/></StackPanel><Button Grid.Column="1" Content="화면에 맞춤" Click="Fit_Click" Padding="10,5" MinHeight="29" FontSize="11" VerticalAlignment="Center"/></Grid>
+            <Border Grid.Row="1" Background="#F7F9FD" Margin="1,0"><Grid>
+              <Grid.Background><DrawingBrush TileMode="Tile" Viewport="0,0,20,20" ViewportUnits="Absolute" Viewbox="0,0,20,20" ViewboxUnits="Absolute"><DrawingBrush.Drawing><GeometryDrawing Brush="#D8E1EE"><GeometryDrawing.Geometry><EllipseGeometry Center="1,1" RadiusX="0.8" RadiusY="0.8"/></GeometryDrawing.Geometry></GeometryDrawing></DrawingBrush.Drawing></DrawingBrush></Grid.Background>
+              <Canvas x:Name="Editor" ClipToBounds="True" Background="Transparent" SizeChanged="Editor_SizeChanged" Focusable="True" KeyDown="Editor_KeyDown" MouseLeftButtonDown="Editor_BackgroundClick"/>
+            </Grid></Border>
+            <Grid Grid.Row="2" Margin="17,0"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><TextBlock Text="드래그로 이동 · 방향키로 미세 조정 · 가장자리 자동 맞춤" Foreground="{StaticResource Muted}" FontSize="10.5" VerticalAlignment="Center"/><TextBlock Grid.Column="1" x:Name="ZoomLabel" Text="100%" Foreground="#8794A8" FontSize="11" VerticalAlignment="Center"/></Grid>
+          </Grid>
+        </Border>
+        <StackPanel Grid.Row="3" Margin="0,14,0,0">
+          <WrapPanel><Button Content="같은 크기로 맞춤" Click="Equalize_Click" Margin="0,0,8,0"/><Button Content="가로로 정렬" Click="Horizontal_Click" Margin="0,0,8,0"/><Button Content="세로로 정렬" Click="Vertical_Click"/></WrapPanel>
+          <TextBlock Text="화면 크기는 이 앱의 연결 기준입니다. 실제 해상도와 배율은 유지됩니다." FontSize="11" Foreground="{StaticResource Muted}" Margin="1,12,0,0"/>
+        </StackPanel>
+      </Grid>
+      <Grid Grid.Column="2"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="14"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+        <Border Background="White" BorderBrush="#DFE5EF" BorderThickness="1" CornerRadius="14" Padding="20">
+          <StackPanel><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel><TextBlock Text="마우스 보정" FontWeight="SemiBold" FontSize="15"/><TextBlock x:Name="RouterLabel" Text="OFF · Windows 기본 이동" Foreground="{StaticResource Muted}" FontSize="11" Margin="0,7,0,0"/></StackPanel><CheckBox x:Name="RouterToggle" Grid.Column="1" Style="{StaticResource Switch}" VerticalAlignment="Center" Click="RouterToggle_Click" AutomationProperties.Name="마우스 보정 ON OFF"/></Grid><TextBlock Text="ON이면 설정한 화면 크기에 맞춰&#x0a;모니터 사이 이동 위치를 연결합니다." Foreground="{StaticResource Muted}" FontSize="11" LineHeight="19" Margin="0,16,0,0"/></StackPanel>
+        </Border>
+        <Border Grid.Row="2" Background="White" BorderBrush="#DFE5EF" BorderThickness="1" CornerRadius="14" Padding="20">
+          <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel>
+            <TextBlock Text="선택한 모니터" Foreground="{StaticResource Muted}" FontSize="11"/>
+            <StackPanel Orientation="Horizontal" Margin="0,12,0,0"><Border Background="#EAF0FF" CornerRadius="8" Width="36" Height="36"><TextBlock x:Name="SelectedNumber" Text="1" Foreground="#3168ED" FontSize="19" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/></Border><StackPanel Margin="10,0,0,0" VerticalAlignment="Center"><TextBlock x:Name="SelectedName" Text="디스플레이" FontSize="13" FontWeight="SemiBold" MaxWidth="178" TextTrimming="CharacterEllipsis"/><TextBlock x:Name="SelectedPrimary" Text="주 모니터" Foreground="{StaticResource Muted}" FontSize="10" Margin="0,3,0,0"/></StackPanel></StackPanel>
+            <Border Background="#F7F9FD" CornerRadius="8" Padding="12" Margin="0,18,0,0"><StackPanel><TextBlock Text="현재 해상도" Foreground="{StaticResource Muted}" FontSize="10"/><TextBlock x:Name="SelectedResolution" Text="—" FontSize="16" FontWeight="SemiBold" Margin="0,5,0,0"/></StackPanel></Border>
+            <TextBlock Text="연결 기준 크기" FontWeight="SemiBold" Margin="0,20,0,0"/>
+            <TextBlock Text="실제 크기가 같으면 동일하게 맞춰주세요." FontSize="10" Foreground="{StaticResource Muted}" Margin="0,5,0,10"/>
+            <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="10"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions><StackPanel><TextBlock Text="가로" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/><TextBox x:Name="WidthInput" AutomationProperties.Name="모니터 기준 가로 크기"/></StackPanel><StackPanel Grid.Column="2"><TextBlock Text="세로" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/><TextBox x:Name="HeightInput" AutomationProperties.Name="모니터 기준 세로 크기"/></StackPanel></Grid>
+            <Button Content="크기 반영" Click="Resize_Click" Margin="0,10,0,0"/>
+            <Border Height="1" Background="#E8EDF5" Margin="0,18,0,16"/>
+            <Button Content="Windows 디스플레이 설정  ↗" Click="WindowsSettings_Click" FontSize="11"/>
+            <Button Content="연결된 모니터 다시 검색" Click="Refresh_Click" FontSize="11" BorderThickness="0" Foreground="{StaticResource Muted}" Margin="0,5,0,0"/>
+          </StackPanel></ScrollViewer>
+        </Border>
+      </Grid>
+    </Grid>
+    <Border Grid.Row="2" Background="White" BorderBrush="#DFE5EF" BorderThickness="0,1,0,0"><Grid Margin="28,0"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel VerticalAlignment="Center" Margin="0,0,20,0"><TextBlock x:Name="StatusText" Text="준비되었습니다" FontWeight="SemiBold" FontSize="12" TextWrapping="Wrap"/><TextBlock x:Name="StatusDetail" Text="적용하면 Windows에도 위치가 반영됩니다. 해상도는 바뀌지 않습니다." Foreground="{StaticResource Muted}" FontSize="10.5" Margin="0,6,0,0" TextWrapping="Wrap"/></StackPanel><StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"><Button x:Name="UndoButton" Content="이전 배치 복원" Click="Undo_Click" Margin="0,0,10,0" IsEnabled="False"/><Button x:Name="ApplyButton" Content="배치 적용하기" Click="Apply_Click" Style="{StaticResource Primary}" Padding="24,12" MinWidth="145"/></StackPanel></Grid></Border>
+  </Grid>
+</Window>
